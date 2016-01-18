@@ -9,7 +9,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 from ..enum.style import WD_STYLE_TYPE
 from ..enum.text import WD_BREAK
 from .font import Font
-from ..shape import InlineShape
+from ..shape import InlineShape, FloatingShape
 from ..shared import Parented
 
 
@@ -62,6 +62,11 @@ class Run(Parented):
         inline = self.part.new_pic_inline(image_path_or_stream, width, height)
         self._r.add_drawing(inline)
         return InlineShape(inline)
+
+    def add_floating_picture(self, image_path_or_stream, width=None, height=None):
+        floating = self.part.new_pic_floating(image_path_or_stream, width, height)
+        self._r.add_drawing(floating)
+        return FloatingShape(floating)
 
     def add_tab(self):
         """
