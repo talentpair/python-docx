@@ -101,3 +101,40 @@ class InlineShape(object):
     def width(self, cx):
         self._inline.extent.cx = cx
         self._inline.graphic.graphicData.pic.spPr.cx = cx
+
+
+class FloatingShape(object):
+    """
+    Proxy for an ``<wp:anchor>`` element, representing the container for an
+    floating graphical object.
+    ATM only floating linked pictures are supported!
+    """
+    def __init__(self, floating):
+        super(FloatingShape, self).__init__()
+        self._floating = floating
+
+    @property
+    def height(self):
+        """
+        Read/write. The display height of this floating shape as an |Emu|
+        instance.
+        """
+        return self._floating.extent.cy
+
+    @height.setter
+    def height(self, cy):
+        self._floating.extent.cy = cy
+        self._floating.graphic.graphicData.pic.spPr.cy = cy
+
+    @property
+    def width(self):
+        """
+        Read/write. The display width of this floating shape as an |Emu|
+        nstance.
+        """
+        return self._floating.extent.cx
+
+    @width.setter
+    def width(self, cx):
+        self._floating.extent.cx = cx
+        self._floating.graphic.graphicData.pic.spPr.cx = cx

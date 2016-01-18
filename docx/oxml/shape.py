@@ -102,6 +102,69 @@ class CT_Inline(BaseOxmlElement):
         )
 
 
+class CT_Floating(BaseOxmlElement):
+    """
+    ``<wp:anchor>`` element, container for a floating shape.
+    """
+    extent = OneAndOnlyOne('wp:extent')
+    docPr = OneAndOnlyOne('wp:docPr')
+    graphic = OneAndOnlyOne('a:graphic')
+
+    @classmethod
+    def new(cls, cx, cy, shape_id, pic):
+        """
+        Return a new ``<wp:anchor>`` element populated with the values passed
+        as parameters.
+        """
+        floating = parse_xml(cls._floating_xml())
+        floating.extent.cx = cx
+        floating.extent.cy = cy
+        floating.docPr.id = shape_id
+        floating.docPr.name = 'Picture %d' % shape_id
+        floating.graphic.graphicData.uri = (
+            'http://schemas.openxmlformats.org/drawingml/2006/picture'
+        )
+        floating.graphic.graphicData._insert_pic(pic)
+        return floating
+
+    @classmethod
+    def new_pic_floating(cls, shape_id, rId, filename, cx, cy):
+        """
+        Return a new `wp:floating` element containing the `pic:pic` element
+        specified by the argument values.
+        """
+        pic_id = 0  # Word doesn't seem to use this, but does not omit it
+        pic = CT_Picture.new(pic_id, filename, rId, cx, cy)
+        floating = cls.new(cx, cy, shape_id, pic)
+        floating.graphic.graphicData._insert_pic(pic)
+        return floating
+
+    @classmethod
+    def _floating_xml(cls):
+        # HACK just hardcoding all the distL and distR params so that image is in upper right-hand corner
+        return (
+            '<wp:anchor distT="0" distB="0" distL="114300" distR="114300" simplePos="0" relativeHeight="251657216" behindDoc="1" locked="0" layoutInCell="1" allowOverlap="1" %s>\n'  # noqa
+            '  <wp:simplePos x="0" y="0"/>\n'
+            '  <wp:positionH relativeFrom="column">\n'
+            '  <wp:posOffset>-57150</wp:posOffset>\n'
+            '  </wp:positionH>\n'
+            '  <wp:positionV relativeFrom="paragraph">\n'
+            '  <wp:posOffset>0</wp:posOffset>\n'
+            '  </wp:positionV>\n'
+            '  <wp:extent cx="914400" cy="914400"/>\n'
+            '  <wp:effectExtent l="0" t="0" r="0" b="0"/>\n'
+            '  <wp:wrapNone/>\n'
+            '  <wp:docPr id="666" name="unnamed"/>\n'
+            '  <wp:cNvGraphicFramePr>\n'
+            '    <a:graphicFrameLocks noChangeAspect="1"/>\n'
+            '  </wp:cNvGraphicFramePr>\n'
+            '  <a:graphic>\n'
+            '    <a:graphicData uri="URI not set"/>\n'
+            '  </a:graphic>\n'
+            '</wp:anchor>' % nsdecls('wp', 'a', 'pic', 'r')
+        )
+
+
 class CT_NonVisualDrawingProps(BaseOxmlElement):
     """
     Used for ``<wp:docPr>`` element, and perhaps others. Specifies the id and
