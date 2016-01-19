@@ -146,10 +146,10 @@ class CT_Floating(BaseOxmlElement):
             '<wp:anchor distT="0" distB="0" distL="114300" distR="114300" simplePos="0" relativeHeight="251657216" behindDoc="1" locked="0" layoutInCell="1" allowOverlap="1" %s>\n'  # noqa
             '  <wp:simplePos x="0" y="0"/>\n'
             '  <wp:positionH relativeFrom="column">\n'
-            '  <wp:posOffset>-57150</wp:posOffset>\n'
+            '    <wp:posOffset>-57150</wp:posOffset>\n'
             '  </wp:positionH>\n'
-            '  <wp:positionV relativeFrom="paragraph">\n'
-            '  <wp:posOffset>0</wp:posOffset>\n'
+            '    <wp:positionV relativeFrom="paragraph">\n'
+            '    <wp:posOffset>0</wp:posOffset>\n'
             '  </wp:positionV>\n'
             '  <wp:extent cx="914400" cy="914400"/>\n'
             '  <wp:effectExtent l="0" t="0" r="0" b="0"/>\n'
