@@ -35,4 +35,4 @@ Dependencies
 ------------
 
 * Python 2.6, 2.7, 3.3, or 3.4
-* lxml >= 2.3.2
+* lxml==3.5.0
